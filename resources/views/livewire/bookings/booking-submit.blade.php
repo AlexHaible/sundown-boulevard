@@ -1,5 +1,5 @@
 <div x-data="availability">
-    <form class="flex flex-col" @submit.prevent="addBooking">
+    <form class="flex flex-col" @submit.prevent="addBooking($dispatch)">
         <div class="w-full p-4">
             <label for="guests" class="inline-block w-24">Guests</label>
             <select name="bookingGuests" id="guests" x-model="guests" class="w-64" @change="checkAvailability()">
@@ -106,7 +106,7 @@
                 setTimeslot(element){
                     this.timeslot = element.value;
                 },
-                addBooking(){
+                addBooking(dispatch){
                     fetch('/api/bookings/new', {
                         method: 'POST',
                         headers: {
@@ -123,7 +123,8 @@
                     })
                     .then(response => response.json())
                     .then(function(data){
-                        $dispatch('notice', {type: 'success', text: '🔥 Success!'})
+                        dispatch('notice', {type: 'success', text: '🔥 Success!'});
+
                     });
                 },
                 selectDish(element){
